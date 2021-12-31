@@ -1,3 +1,4 @@
+
 import tensorflow as tf
 import os
 import pathlib
@@ -29,7 +30,7 @@ print(category_index)
 
 # /20200711/efficientdet_d0_coco17_tpu-32.tar.gz
 # /20200711/ssd_mobilenet_v2_320x320_coco17_tpu-8.tar.gz
-
+# /20200711/ssd_resnet50_v1_fpn_1024x1024_coco17_tpu-8.tar.gz
 # Download and extract model
 def download_model(model_name, model_date):
     base_url = 'http://download.tensorflow.org/models/object_detection/tf2/'
@@ -40,7 +41,7 @@ def download_model(model_name, model_date):
     return str(model_dir)
 
 MODEL_DATE = '20200711'
-MODEL_NAME = 'ssd_mobilenet_v2_320x320_coco17_tpu-8'
+MODEL_NAME = 'ssd_resnet50_v1_fpn_1024x1024_coco17_tpu-8'
 PATH_TO_MODEL_DIR = download_model(MODEL_NAME, MODEL_DATE)
 
 def load_model(model_dir) :
@@ -59,7 +60,7 @@ detection_model = load_model(PATH_TO_MODEL_DIR)
 # print(detection_model.signatures['serving_default'].output_shapes)
 
 
-def show_inference(detection_model, image_np,min_score) :
+def show_inference(detection_model, image_np,min_score2 ) :
      # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
     input_tensor = tf.convert_to_tensor(image_np)
     # The model expects a batch of images, so add an axis with `tf.newaxis`.
@@ -90,12 +91,12 @@ def show_inference(detection_model, image_np,min_score) :
           category_index,
           use_normalized_coordinates=True,
           max_boxes_to_draw=100,
-          min_score_thresh=(min_score / 100),
+          min_score2_thresh=(min_score2/100),
           agnostic_mode=False)
 
     img = Image.fromarray(image_np_with_detections)
     st.image(img,use_column_width=True)
 
 
-def run_object_detection(image_np,min_score) :
-    show_inference(detection_model, image_np, min_score)
+def run_object_detection2(image_np,min_score2) :
+    show_inference(detection_model, image_np, min_score2)
